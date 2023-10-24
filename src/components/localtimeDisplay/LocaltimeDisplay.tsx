@@ -5,9 +5,13 @@ type LocaltimeDisplayProps = {
 };
 
 export default function LocaltimeDisplay({ localtime }: LocaltimeDisplayProps) {
-  const [time, setTime] = useState(localtime);
+  const [time, setTime] = useState(new Date(localtime));
 
-  const tick = () => setTime(new Date());
+  const tick = () => setTime((prevTime) => new Date(prevTime.getTime() + 1000));
+
+ useEffect(() => {
+    setTime(new Date(localtime));
+  }, [localtime]);
 
   useEffect(() => {
     const intervalId = setInterval(tick, 1000);
@@ -15,7 +19,7 @@ export default function LocaltimeDisplay({ localtime }: LocaltimeDisplayProps) {
     return () => {
       clearInterval(intervalId);
     };
-  }, [localtime]);
+  }, []);
 
   return <p>{time.toString()}</p>;
 }

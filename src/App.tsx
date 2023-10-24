@@ -6,6 +6,7 @@ import { useState } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.main`
+  position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -46,19 +47,24 @@ function App() {
   const [inputLocation, setInputLocation] = useState<string>();
 
   const handleApiCall = async () => {
-    if (inputLocation === "") {
+    if (!inputLocation) {
       return;
     }
 
-    try {
-      const response = await fetch(
-        `http://api.weatherapi.com/v1/current.json?key=07c39328eb134ed3add233858230602&q=${inputLocation}&aqi=yes`
-      );
-      const data = await response.json();
-      setWeatherData(processData(data as WeatherApiData));
-    } catch (error) {
-      throw error;
-    }
+    fetch(
+      `http://api.weatherapi.com/v1/current.json?key=07c39328eb134ed3add233858230602&q=${inputLocation}&aqi=yes`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text);
+          });
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => setWeatherData(processData(data as WeatherApiData)))
+      .catch((error) => console.log(error));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,10 +73,9 @@ function App() {
 
   return (
     <Wrapper>
-      <h1>React Weather App</h1>
       <Container
         handleChange={handleChange}
-        handleApiCall={debounce(handleApiCall, 500)}
+        handleApiCall={debounce(handleApiCall, 200)}
       />
       {weatherData && <WeatherDisplay weather={weatherData} />}
     </Wrapper>
