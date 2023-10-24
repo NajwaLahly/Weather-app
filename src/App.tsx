@@ -2,7 +2,7 @@ import "./App.css";
 import WeatherDisplay from "./components/weatherDisplay/WeatherDisplay";
 import Container from "./components/container/Container";
 import { WeatherData, WeatherApiData } from "./model";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.main`
@@ -43,14 +43,19 @@ function processData(data: WeatherApiData): WeatherData {
 }
 
 function App() {
-  const [weatherData, setWeatherData] = useState<WeatherData>();
+  const [weatherData, setWeatherData] = useState<WeatherData>(
+    JSON.parse(localStorage.getItem("weather")!)
+  );
   const [inputLocation, setInputLocation] = useState<string>();
+
+  useEffect(() => {
+    localStorage.setItem("weather", JSON.stringify(weatherData));
+  }, [weatherData]);
 
   const handleApiCall = async () => {
     if (!inputLocation) {
       return;
     }
-
     fetch(
       `http://api.weatherapi.com/v1/current.json?key=07c39328eb134ed3add233858230602&q=${inputLocation}&aqi=yes`
     )
