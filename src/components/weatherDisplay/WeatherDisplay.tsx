@@ -51,7 +51,7 @@ const WeatherHighlight = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 3rem;
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
 `;
 
 export default function WeatherDisplay({ weather }: WeatherDisplayProps) {

@@ -4,6 +4,7 @@ import Container from "./components/container/Container";
 import { WeatherData, WeatherApiData } from "./model";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import Footer from "./components/footer/Footer";
 
 const Wrapper = styled.main`
   position: fixed;
@@ -15,6 +16,7 @@ const Wrapper = styled.main`
   height: 100%;
   background-color: #f5f7fb;
   color: #626976;
+  bottom: 10 px;
 `;
 
 // Debounce function to limit API requests
@@ -83,6 +85,7 @@ function App() {
         handleApiCall={debounce(handleApiCall, 200)}
       />
       {weatherData && <WeatherDisplay weather={weatherData} />}
+      <Footer />
     </Wrapper>
   );
 }
