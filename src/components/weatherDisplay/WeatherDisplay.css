@@ -1,0 +1,25 @@
+.weather-data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.weather-data > span {
+    width: 100%;
+    display: table-cell;
+    vertical-align: middle;
+    white-space: nowrap;
+    margin-left: 13rem;
+}
+
+.weather-highlight {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
