@@ -1,6 +1,22 @@
-.container {
-    padding: 20px;
-  }
+.footer {
+  bottom: 0px;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  margin-top: 2rem;
+  justify-content: space-between; 
+  align-items: center;
+}
+
+.footer > div {
+  text-align: center;
+  width: 400px;
+}
+
+.footer > div > p {
+  white-space: nowrap;
+}
+
 
 input[type=text], select, textarea {
     width: 100%;
@@ -34,6 +50,8 @@ input[type=text], select, textarea {
   }
   
 .contact-me {
-    font-style: normal serif;
-    color: #0846d8;
+}
+
+.container {
+  padding: 20px;
 }

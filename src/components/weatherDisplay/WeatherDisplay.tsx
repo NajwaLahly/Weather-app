@@ -29,6 +29,7 @@ const WeatherText = styled.span`
   display: table-cell;
   vertical-align: middle;
   white-space: nowrap;
+  margin-left: 13rem;
 `;
 
 const Temperature = styled.span`
@@ -50,13 +51,13 @@ const WeatherHighlight = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
 export default function WeatherDisplay({ weather }: WeatherDisplayProps) {
   return (
-    <>
+    <div style={{ backgroundColor: "bleue" }}>
       <WeatherHighlight>
         <img
           src={weather.weatherIcon}
@@ -108,6 +109,6 @@ export default function WeatherDisplay({ weather }: WeatherDisplayProps) {
         </IconContext.Provider>
       </WeatherContent>
       <LocaltimeDisplay localtime={weather.localtime} />
-    </>
+    </div>
   );
 }

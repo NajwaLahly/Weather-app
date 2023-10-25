@@ -1,12 +1,11 @@
 import styled from "styled-components";
 
-type ContainerProps = {
+type LocationInputProps = {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleApiCall: () => void;
 };
 
-const Wrapper = styled.div`
-  position: fixed;
+const Container = styled.div`
   top: 5%;
   display: flex;
   justify-content: center;
@@ -36,16 +35,16 @@ const SubmitButton = styled.input`
   cursor: pointer;
 `;
 
-export default function Container({
+export default function LocationInput({
   handleChange,
   handleApiCall,
-}: ContainerProps) {
+}: LocationInputProps) {
   return (
-    <Wrapper>
+    <Container>
       <h1>React Weather App</h1>
       <label>Enter Location</label>
       <SearchInput onChange={handleChange} />
       <SubmitButton type="submit" onClick={handleApiCall} value="Search" />
-    </Wrapper>
+    </Container>
   );
 }
