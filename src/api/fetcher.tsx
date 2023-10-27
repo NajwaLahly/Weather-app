@@ -11,6 +11,6 @@ export async function fetchWeatherData(inputLocation: string) {
         return response.json();
       }
     })
-    .catch((e) => console.log(e));
+    .catch((e) => e);
   return response;
 }

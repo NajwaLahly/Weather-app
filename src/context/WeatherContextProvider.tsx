@@ -1,19 +1,15 @@
-import {
-  createContext,
-  useState,
-  ReactNode,
-  useContext,
-  useEffect,
-} from "react";
+import { createContext, useState, ReactNode, useContext } from "react";
 import { WeatherData } from "../utils/model";
 import { processData } from "../utils/utils";
 import { WeatherApiData } from "../utils/model";
 import { fetchWeatherData } from "../api/fetcher";
+import { useQuery } from "react-query";
 
 type WeatherContextValue = {
   weatherData: WeatherData;
-  isLoading: boolean;
-  fetchWeather: (location: string) => void;
+  fetchWeather: (Location: string) => void;
+  isFetching: boolean;
+  error: any;
 };
 
 type WeatherContextProviderProps = {
@@ -27,28 +23,45 @@ const weatherContext = createContext<WeatherContextValue>(
 export default function WeatherContextProvider({
   children,
 }: WeatherContextProviderProps) {
-  const [weatherData, setWeatherData] = useState<WeatherData>(
-    JSON.parse(localStorage.getItem("weather")!)
-  );
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [location, setLocation] = useState<string>("");
 
-  useEffect(() => {
-    localStorage.setItem("weather", JSON.stringify(weatherData));
-  }, [weatherData]);
-
-  const fetchWeather = async (location: string) => {
-    setLoading(true);
+  const fetchData = async (location: string) => {
     if (!location) {
       return;
     }
-    fetchWeatherData(location)
-      .then((data) => setWeatherData(processData(data as WeatherApiData)))
-      .then(() => setLoading(false))
-      .catch((error) => console.log(error));
+    return fetchWeatherData(location).then((data) =>
+      processData(data as WeatherApiData)
+    );
+  };
+
+  const useWeatherData = (location: string) => {
+    return useQuery(["weather", location], () => fetchData(location), {
+      enabled: !!location,
+      initialData: JSON.parse(localStorage.getItem("weather")!),
+      onSuccess: (data) => {
+        if (data) {
+          localStorage.setItem("weather", JSON.stringify(data));
+        }
+      },
+    });
+  };
+
+  const {
+    refetch,
+    data: weatherData,
+    isFetching,
+    error,
+  } = useWeatherData(location);
+
+  const fetchWeather = (location: string) => {
+    setLocation(location);
+    refetch();
   };
 
   return (
-    <weatherContext.Provider value={{ weatherData, isLoading, fetchWeather }}>
+    <weatherContext.Provider
+      value={{ weatherData, fetchWeather, isFetching, error }}
+    >
       {children}
     </weatherContext.Provider>
   );

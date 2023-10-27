@@ -18,16 +18,15 @@ const Wrapper = styled.main`
 `;
 
 export default function WeatherApp() {
-  const { weatherData, isLoading } = useWeather();
+  const { weatherData, isFetching, error } = useWeather();
 
   return (
     <Wrapper>
       <LocationInput />
-      {isLoading ? (
-        <div className="loader"/>
-      ) : (
-        weatherData && <WeatherDisplay />
-      )}
+      {isFetching && <div className="loader" />}
+      {error && <div> Error has occured </div>}
+      {weatherData && !error && !isFetching && <WeatherDisplay />}
+
       <Footer />
     </Wrapper>
   );

@@ -34,21 +34,21 @@ const SubmitButton = styled.input`
 `;
 
 export default function LocationInput() {
-  const [location, setLocation] = useState<string>("");
+  const [inputText, setInputText] = useState<string>("");
 
   const { fetchWeather } = useWeather();
-  
+
   return (
     <Container>
       <h1>React Weather App</h1>
       <label>Enter Location</label>
       <SearchInput
-        onChange={(e) => setLocation(e.target.value)}
+        onChange={(e) => setInputText(e.target.value)}
         data-testid="location-input"
       />
       <SubmitButton
         type="submit"
-        onClick={debounce(() => fetchWeather(location), 200)}
+        onClick={() => fetchWeather(inputText)}
         value="Search"
         data-testid="search-button"
       />
