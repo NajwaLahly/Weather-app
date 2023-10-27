@@ -1,10 +1,6 @@
 import { FaSearchLocation } from "react-icons/fa";
 import styled from "styled-components";
-import { WeatherData } from "../../utils/model";
-
-type WeatherHighlightProps = {
-  weather: WeatherData;
-};
+import { useWeather } from "../../context/WeatherContextProvider";
 
 const Temperature = styled.span`
   font-size: 4rem;
@@ -20,19 +16,21 @@ const Location = styled.span`
   font-weight: 500;
 `;
 
-export default function WeatherHighlight({ weather }: WeatherHighlightProps) {
+export default function WeatherHighlight() {
+  const { weatherData } = useWeather();
+
   return (
     <div className="weather-highlight">
       <img
-        src={weather.weatherIcon}
+        src={weatherData.weatherIcon}
         alt="Weather icon"
         width="80"
         height="80"
       />
-      <Temperature>{weather.temperature}°C</Temperature>
+      <Temperature>{weatherData.temperature}°C</Temperature>
       <Location>
         <FaSearchLocation style={{ marginRight: "1rem" }} />
-        {weather.location}
+        {weatherData.location}
       </Location>
     </div>
   );

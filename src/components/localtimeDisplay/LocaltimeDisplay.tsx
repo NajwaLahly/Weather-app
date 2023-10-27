@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
+import { useWeather } from "../../context/WeatherContextProvider";
 
-type LocaltimeDisplayProps = {
-  localtime: Date;
-};
+export default function LocaltimeDisplay() {
+  const { weatherData } = useWeather();
+  const localtime = weatherData.localtime;
 
-export default function LocaltimeDisplay({ localtime }: LocaltimeDisplayProps) {
   const [time, setTime] = useState(new Date(localtime));
 
   const tick = () => setTime((prevTime) => new Date(prevTime.getTime() + 1000));
 
- useEffect(() => {
+  useEffect(() => {
     setTime(new Date(localtime));
   }, [localtime]);
 

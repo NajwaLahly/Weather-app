@@ -6,13 +6,11 @@ import {
   FaSun,
 } from "react-icons/fa";
 import { IconContext } from "react-icons";
-import { WeatherData } from "../../utils/model";
+import { useWeather } from "../../context/WeatherContextProvider";
 
-type WeatherContentProps = {
-  weather: WeatherData;
-};
+export default function WeatherContent() {
+  const { weatherData } = useWeather();
 
-export default function WeatherContent({ weather }: WeatherContentProps) {
   return (
     <div className="weather-data">
       <IconContext.Provider
@@ -28,17 +26,17 @@ export default function WeatherContent({ weather }: WeatherContentProps) {
       >
         <span>
           <FaTemperatureLow />
-          {weather.temperature}° C
+          {weatherData.temperature}° C
         </span>
         <span>
           <FaWind />
-          {weather.windKph} Kph
+          {weatherData.windKph} Kph
         </span>
         <span>
           <FaWater />
-          {weather.humidity} %
+          {weatherData.humidity} %
         </span>
-        {weather.isDay ? (
+        {weatherData.isDay ? (
           <span>
             <FaSun />
             Day

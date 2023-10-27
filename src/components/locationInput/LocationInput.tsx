@@ -1,9 +1,7 @@
 import styled from "styled-components";
-
-type LocationInputProps = {
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleApiCall: () => void;
-};
+import { useWeather } from "../../context/WeatherContextProvider";
+import { debounce } from "../../utils/utils";
+import { useState } from "react";
 
 const Container = styled.div`
   top: 5%;
@@ -35,16 +33,25 @@ const SubmitButton = styled.input`
   cursor: pointer;
 `;
 
-export default function LocationInput({
-  handleChange,
-  handleApiCall,
-}: LocationInputProps) {
+export default function LocationInput() {
+  const [location, setLocation] = useState<string>("");
+
+  const { fetchWeather } = useWeather();
+  
   return (
     <Container>
       <h1>React Weather App</h1>
       <label>Enter Location</label>
-      <SearchInput onChange={handleChange} />
-      <SubmitButton type="submit" onClick={handleApiCall} value="Search" />
+      <SearchInput
+        onChange={(e) => setLocation(e.target.value)}
+        data-testid="location-input"
+      />
+      <SubmitButton
+        type="submit"
+        onClick={debounce(() => fetchWeather(location), 200)}
+        value="Search"
+        data-testid="search-button"
+      />
     </Container>
   );
 }
