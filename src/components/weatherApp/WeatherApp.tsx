@@ -23,10 +23,9 @@ export default function WeatherApp() {
   return (
     <Wrapper>
       <LocationInput />
-      {isFetching && <div className="loader" />}
+      {isFetching && <div className="loader" data-testid="loader" />}
       {error && <div> Error has occured </div>}
       {weatherData && !error && !isFetching && <WeatherDisplay />}
-
       <Footer />
     </Wrapper>
   );

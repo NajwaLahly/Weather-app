@@ -5,7 +5,7 @@ import { WeatherApiData } from "../utils/model";
 import { fetchWeatherData } from "../api/fetcher";
 import { useQuery } from "react-query";
 
-type WeatherContextValue = {
+export type WeatherContextValue = {
   weatherData: WeatherData;
   fetchWeather: (Location: string) => void;
   isFetching: boolean;
